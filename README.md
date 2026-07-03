@@ -13,7 +13,7 @@ docker compose build
 docker compose run --rm avibe
 ```
 
-首次进入容器会安装 avibe；之后启动会复用 `.root/` 中的用户目录状态。
+默认每次进入容器都会重新运行官方安装脚本，用于安装或升级 avibe；`.root/` 中的用户目录状态会持续复用。
 
 如果想保持一个长期运行的开发容器：
 
@@ -38,7 +38,7 @@ cp .env.example .env
 | `IMAGE_TAG` | `latest` | Docker 镜像标签 |
 | `TZ` | `Asia/Shanghai` | 容器时区 |
 | `UPDATE_AI_CLI` | `true` | 启动时是否更新全局 AI CLI |
-| `UPDATE_AVIBE` | `true` | 已安装 avibe 时是否执行 `vibe upgrade` |
+| `UPDATE_AVIBE` | `true` | 启动时是否重新运行 avibe 官方安装脚本以安装/升级 |
 | `START_AVIBE` | `true` | 启动容器时是否后台启动 `vibe` |
 | `AVIBE_INSTALL_URL` | `https://avibe.bot/install.sh` | avibe 安装脚本地址 |
 | `AVIBE_LOG` | `/root/.avibe/avibe.log` | avibe 后台进程日志路径 |
@@ -47,7 +47,7 @@ cp .env.example .env
 
 - `Dockerfile`: 构建 avibe 开发环境。
 - `compose.yaml`: 本地开发容器入口。
-- `entrypoint.sh`: 容器启动时安装/更新 avibe，后台启动 `vibe`，然后进入 shell 或执行传入命令。
+- `entrypoint.sh`: 容器启动时运行 avibe 官方安装脚本，后台启动 `vibe`，然后进入 shell 或执行传入命令。
 - `.root/`: 映射到容器 `/root`，用于持久化 CLI 配置、缓存和 avibe 状态；不会提交到 Git。
 - `docs/agents/`: 工程技能使用的仓库约定。
 - `docs/adr/`: 架构决策记录。

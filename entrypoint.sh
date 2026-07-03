@@ -14,14 +14,11 @@ if [ "$UPDATE_AI_CLI" = "true" ]; then
   npm install -g @anthropic-ai/claude-code@latest
 fi
 
-if command -v vibe >/dev/null 2>&1; then
-  if [ "$UPDATE_AVIBE" = "true" ]; then
-    echo "Updating avibe..."
-    vibe upgrade
-  fi
-else
-  echo "Installing avibe..."
+if [ "$UPDATE_AVIBE" = "true" ]; then
+  echo "Installing or updating avibe..."
   curl -fsSL "$AVIBE_INSTALL_URL" | bash
+else
+  echo "Skipping avibe install/update because UPDATE_AVIBE=$UPDATE_AVIBE."
 fi
 
 for profile in "$HOME/.bashrc" "$HOME/.profile"; do

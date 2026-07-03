@@ -9,7 +9,7 @@ This repository packages an AI-agent-oriented development container environment 
 - **avibe**: The upstream tool started through the `vibe` command.
 - **development container**: The Debian-based environment that contains compilers, language runtimes, Git tooling, shell utilities, and CLI dependencies used by AI agents while writing code.
 - **published image**: `xiao806852034/avibe-container`, the Docker Hub image built from this repository.
-- **entrypoint**: `entrypoint.sh`, the startup script that installs or updates avibe, starts `vibe` in the background, and then runs the foreground shell or command.
+- **entrypoint**: `entrypoint.sh`, the startup script that reruns the official avibe install script, starts `vibe` in the background, and then runs the foreground shell or command.
 - **persistent root**: The local `.root/` directory mounted as container `/root`, used for CLI configuration, caches, and avibe state.
 - **workspace**: The repository mounted at `/workspace` for code editing inside the container.
 
