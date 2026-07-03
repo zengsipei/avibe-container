@@ -7,9 +7,13 @@ services:
       TZ: ${TZ:-Asia/Shanghai}
       AVIBE_INSTALL_URL: ${AVIBE_INSTALL_URL:-https://avibe.bot/install.sh}
       AVIBE_LOG: ${AVIBE_LOG:-/root/.avibe/avibe.log}
+      AVIBE_UI_PORT: ${AVIBE_UI_PORT:-5123}
+      AVIBE_UI_PROXY_LOG: ${AVIBE_UI_PROXY_LOG:-/tmp/avibe-ui-proxy.log}
     volumes:
       - .:/workspace
       - ./.root:/root
     working_dir: /workspace
     stdin_open: true
     tty: true
+    ports:
+      - "${AVIBE_UI_HOST_PORT:-5123}:${AVIBE_UI_PORT:-5123}"

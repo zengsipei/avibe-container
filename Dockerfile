@@ -40,6 +40,7 @@ RUN apt-get update \
       python3-venv \
       ripgrep \
       shellcheck \
+      socat \
       sudo \
       tree \
       tzdata \

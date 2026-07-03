@@ -24,6 +24,8 @@ docker compose exec avibe bash -l
 
 仓库目录会挂载到容器的 `/workspace`，容器 `/root` 会挂载到本机 `.root/`。
 
+avibe 的 UI 服务当前在容器内监听 `127.0.0.1:5123`。容器入口会启动一个本地代理，把容器网卡上的 `5123` 转发到内部 loopback，所以宿主机可以通过 `http://127.0.0.1:5123` 访问。
+
 ## 配置
 
 复制 `.env.example` 为 `.env` 后可以调整启动行为：
@@ -39,12 +41,16 @@ cp .env.example .env
 | `TZ` | `Asia/Shanghai` | 容器时区 |
 | `AVIBE_INSTALL_URL` | `https://avibe.bot/install.sh` | avibe 安装脚本地址 |
 | `AVIBE_LOG` | `/root/.avibe/avibe.log` | avibe 后台进程日志路径 |
+| `AVIBE_UI_PORT` | `5123` | 容器内 avibe UI 端口 |
+| `AVIBE_UI_HOST_PORT` | `5123` | 映射到宿主机的 UI 端口 |
+| `AVIBE_UI_PROXY_LOG` | `/tmp/avibe-ui-proxy.log` | UI 代理日志路径 |
 
 ## 目录约定
 
 - `Dockerfile`: 构建 avibe 开发环境。
 - `compose.yaml`: 本地开发容器入口。
 - `entrypoint.sh`: 容器启动时运行 avibe 官方安装脚本，后台启动 `vibe`，然后进入 shell 或执行传入命令。
+- `socat`: 用于把容器网卡的 UI 端口转发到 avibe 内部监听的 `127.0.0.1:5123`。
 - `fnm`: 安装在容器 `/opt/fnm`，用于安装和激活 LTS Node，避免使用 Debian 仓库里的旧版 Node。
 - `.root/`: 映射到容器 `/root`，用于持久化 CLI 配置、缓存和 avibe 状态；不会提交到 Git。
 - `docs/agents/`: 工程技能使用的仓库约定。
