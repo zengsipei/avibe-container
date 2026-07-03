@@ -7,13 +7,13 @@ services:
       TZ: ${TZ:-Asia/Shanghai}
       AVIBE_INSTALL_URL: ${AVIBE_INSTALL_URL:-https://avibe.bot/install.sh}
       AVIBE_LOG: ${AVIBE_LOG:-/root/.avibe/avibe.log}
-      AVIBE_UI_PORT: ${AVIBE_UI_PORT:-5123}
-      AVIBE_UI_PROXY_LOG: ${AVIBE_UI_PROXY_LOG:-/tmp/avibe-ui-proxy.log}
+      AVIBE_REMOTE_START: ${AVIBE_REMOTE_START:-true}
+      AVIBE_REMOTE_BACKEND_URL: ${AVIBE_REMOTE_BACKEND_URL:-https://avibe.zengsipei.cn}
+      AVIBE_REMOTE_DEVICE_NAME: ${AVIBE_REMOTE_DEVICE_NAME:-avibe-container}
+      AVIBE_REMOTE_PAIRING_KEY: ${AVIBE_REMOTE_PAIRING_KEY:-}
     volumes:
       - .:/workspace
       - ./.root:/root
     working_dir: /workspace
     stdin_open: true
     tty: true
-    ports:
-      - "${AVIBE_UI_HOST_PORT:-5123}:${AVIBE_UI_PORT:-5123}"

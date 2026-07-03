@@ -40,7 +40,6 @@ RUN apt-get update \
       python3-venv \
       ripgrep \
       shellcheck \
-      socat \
       sudo \
       tree \
       tzdata \
@@ -69,6 +68,15 @@ RUN curl -fsSL https://fnm.vercel.app/install | bash -s -- --install-dir "$FNM_D
       echo 'export PATH="$FNM_DIR:$PATH"'; \
       echo 'eval "$(fnm env --use-on-cd --shell bash)"'; \
     } > /etc/profile.d/fnm.sh
+
+RUN case "$(dpkg --print-architecture)" in \
+      amd64) cloudflared_arch="amd64" ;; \
+      arm64) cloudflared_arch="arm64" ;; \
+      *) echo "Unsupported cloudflared architecture: $(dpkg --print-architecture)" >&2; exit 1 ;; \
+    esac \
+    && curl -fsSL -o /usr/local/bin/cloudflared "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-${cloudflared_arch}" \
+    && chmod +x /usr/local/bin/cloudflared \
+    && cloudflared --version
 
 COPY entrypoint.sh /usr/local/bin/avibe-entrypoint
 RUN chmod +x /usr/local/bin/avibe-entrypoint
