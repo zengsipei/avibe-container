@@ -1,0 +1,18 @@
+services:
+  avibe:
+    build:
+      context: .
+    image: ${IMAGE_NAME:-xiao806852034/avibe-container}:${IMAGE_TAG:-latest}
+    environment:
+      TZ: ${TZ:-Asia/Shanghai}
+      UPDATE_AI_CLI: ${UPDATE_AI_CLI:-true}
+      UPDATE_AVIBE: ${UPDATE_AVIBE:-true}
+      START_AVIBE: ${START_AVIBE:-true}
+      AVIBE_INSTALL_URL: ${AVIBE_INSTALL_URL:-https://avibe.bot/install.sh}
+      AVIBE_LOG: ${AVIBE_LOG:-/root/.avibe/avibe.log}
+    volumes:
+      - .:/workspace
+      - ./.root:/root
+    working_dir: /workspace
+    stdin_open: true
+    tty: true

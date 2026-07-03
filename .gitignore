@@ -1,0 +1,20 @@
+.root/
+.env
+
+# Logs and runtime output
+*.log
+logs/
+tmp/
+
+# Node/package-manager artifacts from local experiments
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
