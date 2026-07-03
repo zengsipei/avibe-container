@@ -12,7 +12,7 @@ This repository is used to run avibe from a local, repeatable container environm
 
 Use Docker Compose as the local user entry point, backed by a Debian image built from `Dockerfile`.
 
-The image installs common development dependencies such as compilers, Git/GitHub tooling, shell utilities, Node/npm, Python, and diagnostics tools. The startup script reruns the official avibe install script at runtime to install or upgrade avibe, starts `vibe` in the background, then runs the foreground shell or command.
+The image installs common development dependencies such as compilers, Git/GitHub tooling, shell utilities, Python, and diagnostics tools. Node.js is installed through `fnm` under `/opt/fnm`, using the latest LTS line rather than Debian's packaged Node/npm versions. The startup script reruns the official avibe install script at runtime to install or upgrade avibe, starts `vibe` in the background, then runs the foreground shell or command.
 
 Mount the repository to `/workspace` for coding. Mount local `.root/` to container `/root` so CLI auth, caches, and avibe state survive container recreation without being committed.
 

@@ -6,20 +6,20 @@ UPDATE_AVIBE="${UPDATE_AVIBE:-true}"
 START_AVIBE="${START_AVIBE:-true}"
 AVIBE_INSTALL_URL="${AVIBE_INSTALL_URL:-https://avibe.bot/install.sh}"
 AVIBE_LOG="${AVIBE_LOG:-$HOME/.avibe/avibe.log}"
+FNM_DIR="${FNM_DIR:-/opt/fnm}"
+
+export FNM_DIR
+export PATH="$FNM_DIR:$PATH"
 
 echo "Initializing avibe container environment..."
 
-if [ "$UPDATE_AI_CLI" = "true" ]; then
-  echo "Installing or updating AI CLI tools..."
-  npm install -g @anthropic-ai/claude-code@latest
-fi
+eval "$(fnm env --use-on-cd --shell bash)"
 
-if [ "$UPDATE_AVIBE" = "true" ]; then
-  echo "Installing or updating avibe..."
-  curl -fsSL "$AVIBE_INSTALL_URL" | bash
-else
-  echo "Skipping avibe install/update because UPDATE_AVIBE=$UPDATE_AVIBE."
-fi
+echo "Installing or updating AI CLI tools..."
+npm install -g @anthropic-ai/claude-code@latest
+
+echo "Installing or updating avibe..."
+curl -fsSL "$AVIBE_INSTALL_URL" | bash
 
 for profile in "$HOME/.bashrc" "$HOME/.profile"; do
   if [ -f "$profile" ]; then
@@ -41,14 +41,10 @@ if ! command -v vibe >/dev/null 2>&1; then
   exit 1
 fi
 
-if [ "$START_AVIBE" = "true" ]; then
-  mkdir -p "$(dirname "$AVIBE_LOG")"
-  echo "Starting avibe in the background. Logs: $AVIBE_LOG"
-  vibe >>"$AVIBE_LOG" 2>&1 &
-  echo "$!" > /tmp/avibe.pid
-else
-  echo "Skipping avibe background start because START_AVIBE=$START_AVIBE."
-fi
+mkdir -p "$(dirname "$AVIBE_LOG")"
+echo "Starting avibe in the background. Logs: $AVIBE_LOG"
+vibe >>"$AVIBE_LOG" 2>&1 &
+echo "$!" > /tmp/avibe.pid
 
 echo "Development environment ready."
 exec "$@"
